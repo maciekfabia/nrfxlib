@@ -10,7 +10,7 @@
  * @brief Module for converting ZBOSS error code into a printable string.
  * @{
  */
-#ifdef CONFIG_ZBOSS_ERROR_TO_STRING_ENABLED
+#ifdef CONFIG_ZIGBEE_ERROR_TO_STRING_ENABLED
 #include "zb_error_to_string.h"
 
 /** Counts number of elements inside the array
@@ -129,6 +129,6 @@ char const * zb_error_to_string_find(zb_ret_t code)
 	return NULL;
 }
 
-#endif /* CONFIG_ZBOSS_ERROR_TO_STRING_ENABLED */
+#endif /* CONFIG_ZIGBEE_ERROR_TO_STRING_ENABLED */
 
 /** @} */

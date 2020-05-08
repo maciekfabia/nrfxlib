@@ -6,11 +6,9 @@
 
 include(${NRFXLIB_DIR}/common.cmake)
 
-#old_sdk: ToDo - Add include path for radio using Kconfig. Now isn't working on NCS master
-zephyr_include_directories(${NRFXLIB_DIR}/../modules/hal/nordic/drivers/nrf_radio_802154)
-
 # Common includes, not related to ZBOSS source code.
 zephyr_include_directories(src/zb_error)
+zephyr_include_directories(include/addons)
 
 # Source files
 zephyr_sources(src/zb_error/zb_error_to_string.c)
@@ -24,47 +22,30 @@ if (CONFIG_ZIGBEE_ROLE_END_DEVICE)
 endif()
 
 
-if (CONFIG_ZBOSS_LIBRARY_PRECOMPILED)
+if ((NOT DEFINED ZEPHYR_PLATFORM_NCS_MODULE_DIR) OR
+    (CONFIG_ZBOSS_LIBRARY_PRECOMPILED))
 
-zephyr_include_directories(include)
-zephyr_include_directories(include/zcl)
-zephyr_include_directories(include/ha)
-zephyr_include_directories(include/se)
-zephyr_include_directories(include/osif)
-zephyr_include_directories(include/addons)
+  zephyr_include_directories(include)
+  zephyr_include_directories(include/zcl)
+  zephyr_include_directories(include/ha)
+  zephyr_include_directories(include/se)
+  zephyr_include_directories(include/osif)
 
-nrfxlib_calculate_lib_path(lib_path)
-set(ZBOSS_LIB_PATH ${CMAKE_CURRENT_SOURCE_DIR}/${lib_path})
-if(NOT EXISTS ${ZBOSS_LIB_PATH})
-  message(WARNING "This combination of SoC and floating point ABI is not supported by the ZBOSS lib."
-                  "(${ZBOSS_LIB_PATH} doesn't exist.)")
-endif()
-
-if (CONFIG_ZIGBEE_ROLE_COORDINATOR OR CONFIG_ZIGBEE_ROLE_ROUTER)
-  zephyr_link_libraries(${ZBOSS_LIB_PATH}/libzboss.a)
-elseif (CONFIG_ZIGBEE_ROLE_END_DEVICE)
-  zephyr_link_libraries(${ZBOSS_LIB_PATH}/libzboss.ed.a)
-else()
-  message( FATAL_ERROR "Unsupported Zigbee role. Exiting." )
-endif()
-
-elseif(CONFIG_ZBOSS_LIBRARY_SOURCES)
-  # Read ZOI platform repository path from west manifest file.
-  execute_process(
-    COMMAND
-    ${WEST} list -f {posixpath} manifest
-    OUTPUT_VARIABLE ZOI_PLATFORM_SOURCE_DIR
-    )
-  # Trim a trailing whitespace.
-  string(STRIP ${ZOI_PLATFORM_SOURCE_DIR} ZOI_PLATFORM_SOURCE_DIR)
-
-  # Include ZBOSS build CMake file.
-  if(EXISTS "${ZOI_PLATFORM_SOURCE_DIR}/CMakeLists.txt")
-    include("${ZOI_PLATFORM_SOURCE_DIR}/CMakeLists.txt")
-  else()
-    message( FATAL_ERROR "Unable to find ZOI platform repository. Please checkout repositories from ZOI manifest file to recover. Exiting." )
+  nrfxlib_calculate_lib_path(lib_path)
+  set(ZBOSS_LIB_PATH ${CMAKE_CURRENT_SOURCE_DIR}/${lib_path})
+  if(NOT EXISTS ${ZBOSS_LIB_PATH})
+    message(WARNING "This combination of SoC and floating point ABI is not supported by the ZBOSS lib."
+                    "(${ZBOSS_LIB_PATH} doesn't exist.)")
   endif()
 
-else()
-  message( FATAL_ERROR "Unsupported ZBOSS library type. Exiting." )
+  if (CONFIG_ZIGBEE_ROLE_COORDINATOR OR CONFIG_ZIGBEE_ROLE_ROUTER)
+    zephyr_link_libraries(${ZBOSS_LIB_PATH}/libzboss.a)
+    toolchain_cc_imacros(${CMAKE_CURRENT_SOURCE_DIR}/include/osif/libzboss_config.h)
+  elseif (CONFIG_ZIGBEE_ROLE_END_DEVICE)
+    zephyr_link_libraries(${ZBOSS_LIB_PATH}/libzboss.ed.a)
+    toolchain_cc_imacros(${CMAKE_CURRENT_SOURCE_DIR}/include/osif/libzboss_config.ed.h)
+  else()
+    message( FATAL_ERROR "Unsupported Zigbee role. Exiting." )
+  endif()
+
 endif()
