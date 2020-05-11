@@ -418,4 +418,3 @@
 #define CONFIG_ZB_NWK_BTR_TABLE_SIZE 16
 
 #endif /* LIBZBOSS_CONFIG_ED_H__ */
-
