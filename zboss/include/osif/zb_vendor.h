@@ -9,6 +9,15 @@
 #ifndef ZB_VENDOR_H__
 #define ZB_VENDOR_H__
 
+/**
+ * Include additional configuration file, which usually contains the set of
+ * symbols defined by ZBOSS source code Kconfig, which can be found in NCS
+ * platform repository.
+ */
+#ifdef LIBZBOSS_CONFIG_FILE
+#include LIBZBOSS_CONFIG_FILE
+#endif
+
 #include "zb_config_platform.h"
 
 
