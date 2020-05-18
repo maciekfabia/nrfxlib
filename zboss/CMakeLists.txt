@@ -47,7 +47,6 @@ zephyr_library_sources(src/zb_error/zb_error_to_string.c)
 # Link with ZBOSS extensions interface library, which is linked to the main
 # ZBOSS interface library.
 zephyr_library_link_libraries(zboss)
-zephyr_library_link_libraries(zboss-extensions)
 
 # Precompiled libraries -only part.
 # Use the CONFIG_ZBOSS_SOURCES_AVAILABLE Kconfig option is defined in ZBOSS
