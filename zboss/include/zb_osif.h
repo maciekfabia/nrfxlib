@@ -163,13 +163,6 @@ void zb_osif_serial_transport_put_bytes(zb_uint8_t *buf, zb_short_t len);
 /* Serial interface (trace, traffic dump, serial transport) */
 
 /**
-   Type of callback called by serial interface when it receives a single byte.
-
-   @param byte - received byte
- */
-typedef void (*zb_osif_uart_byte_received_cb_t)(zb_uint8_t byte);
-
-/**
    Initialize UART low level.
 
    If ZBOSS uses UART for trace or traffic dump, it calls zb_osif_serial_init()
@@ -183,7 +176,7 @@ void zb_osif_serial_init(void);
 
    @param hnd user's rx callback
  */
-void zb_osif_set_uart_byte_received_cb(zb_osif_uart_byte_received_cb_t hnd);
+void zb_osif_set_uart_byte_received_cb(zb_callback_t hnd);
 
 /** @cond internals_doc */
 

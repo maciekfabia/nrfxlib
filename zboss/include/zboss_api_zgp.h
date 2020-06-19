@@ -1423,6 +1423,8 @@ void zb_zgps_set_communication_mode(zgp_communication_mode_t mode);
   */
 void zb_zgp_set_skip_gpfd(zb_bool_t skip);
 
+zb_bool_t zb_zgp_get_skip_gpfd();
+
 #endif  /* ZB_ENABLE_ZGP_DIRECT */
 
 /*! @} */

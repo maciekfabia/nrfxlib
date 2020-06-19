@@ -156,8 +156,8 @@ extern zb_uint_t g_trace_inside_intr;
 #define TRACE_SUBSYSTEM_TRANSPORT TRACE_SUBSYSTEM_LWIP
 #define TRACE_SUBSYSTEM_UART TRACE_SUBSYSTEM_LWIP
 
-#define TRACE_SUBSYSTEM_SPECIAL1 TRACE_SUBSYSTEM_ALIEN
-#define TRACE_SUBSYSTEM_MACLL   TRACE_SUBSYSTEM_ALIEN
+#define TRACE_SUBSYSTEM_SPECIAL1 TRACE_SUBSYSTEM_SSL
+#define TRACE_SUBSYSTEM_MACLL   TRACE_SUBSYSTEM_SSL
 
 #define TRACE_SUBSYSTEM_BATTERY TRACE_SUBSYSTEM_SSL
 #define TRACE_SUBSYSTEM_MAC_API TRACE_SUBSYSTEM_SSL
@@ -202,7 +202,7 @@ zb_uint32_t zb_trace_get_counter(void);
 
 #ifdef DOXYGEN
 /**
-   Trace file id used by win_com_dump to identify source file.
+   Trace file ID used by win_com_dump to identify source file.
 
    Must be first define in the .c file, just before first include directive.
   @par Example
@@ -397,7 +397,7 @@ void zb_trace_msg_port(
 
 #endif  /* trace on/off */
 
-
+/** @cond DSR_TRACE */
 /**
  *  @addtogroup TRACE_DATA_FORMAT_ADDITIONAL Trace data format for keys
  *  @{
@@ -459,7 +459,7 @@ typedef struct zb_byte128_struct_s
 
 #endif  /* ti file / !to file */
 /** @} */ /* TRACE_DATA_FORMAT_ADDITIONAL */
-
+/** @endcond */ /* DSR_TRACE */
 
 
 /** @cond DSR_TRACE */
